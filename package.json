@@ -1,0 +1,29 @@
+{
+  "name": "praktikum_backend-mesto",
+  "version": "0.0.1",
+  "description": "Backend for service Mesto",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/romcath/praktikum_backend-mesto.git"
+  },
+  "keywords": [
+    "express.js",
+    "backend"
+  ],
+  "author": "Kate Romashkina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/romcath/praktikum_backend-mesto/issues"
+  },
+  "homepage": "https://github.com/romcath/praktikum_backend-mesto#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}
