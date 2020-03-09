@@ -2,8 +2,10 @@
   "name": "praktikum_backend-mesto",
   "version": "0.0.1",
   "description": "Backend for service Mesto",
-  "main": "index.js",
-  "scripts": {},
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/romcath/praktikum_backend-mesto.git"
