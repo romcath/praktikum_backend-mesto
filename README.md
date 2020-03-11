@@ -16,11 +16,17 @@ API для сервиса размещения фотографий Mesto.
 
 ## Установка проекта
 Клонируйте репозиторий на компьютер:
+
 ```git clone https://github.com/romcath/praktikum_backend-mesto.git```
+
 Установите зависисмости:
+
 ```npm install```
+
 Запустите сервер:
+
 ```npm run start```
+
 
 ## Стек технологий
 HTML, CSS, JavaScript, Webpack, GIT, Node.js, Express.js
