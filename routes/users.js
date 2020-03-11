@@ -3,10 +3,11 @@ const users = require('../data/users.json');
 
 route.get('/users/:_id', (req, res) => {
   const { _id } = req.params;
-  const user = users.find(item => item._id === _id);
+  // eslint-disable-next-line no-underscore-dangle
+  const user = users.find((item) => item._id === _id);
 
   if (!user) {
-    res.status(404).send({ "message": "Нет пользователя с таким id" });
+    res.status(404).send({ message: 'Нет пользователя с таким id' });
   } else res.send(user);
 });
 
