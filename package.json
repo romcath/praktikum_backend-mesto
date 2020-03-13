@@ -1,13 +1,13 @@
 {
   "name": "praktikum_backend-mesto",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Backend for service Mesto",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
     "eslint": "eslint --ext .js ./",
-    "eslint:fix" : "eslint --ext .js ./ --fix"
+    "eslint:fix": "eslint --ext .js ./ --fix"
   },
   "repository": {
     "type": "git",
