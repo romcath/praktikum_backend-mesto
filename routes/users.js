@@ -1,7 +1,11 @@
 const route = require('express').Router();
 const users = require('../data/users.json');
 
-route.get('/users/:_id', (req, res) => {
+route.get('/me', (req, res) => {
+  res.send(users[0]);
+});
+
+route.get('/:_id', (req, res) => {
   const { _id } = req.params;
   // eslint-disable-next-line no-underscore-dangle
   const user = users.find((item) => item._id === _id);
@@ -11,8 +15,7 @@ route.get('/users/:_id', (req, res) => {
   } else res.send(user);
 });
 
-
-route.get('/users', (req, res) => {
+route.get('/', (req, res) => {
   res.send(users);
 });
 

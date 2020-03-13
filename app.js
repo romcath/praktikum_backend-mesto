@@ -9,9 +9,9 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', routeCards);
-app.use('/', routeUsers);
-app.use('/', routeErrorUrl);
+app.use('/cards', routeCards);
+app.use('/users', routeUsers);
+app.use('*', routeErrorUrl);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
