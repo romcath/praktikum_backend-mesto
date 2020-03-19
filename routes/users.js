@@ -7,7 +7,7 @@ route.get('/me', (req, res) => {
 
 route.get('/:_id', (req, res) => {
   const { _id } = req.params;
-  const user = users.find((item) => item._id === _id);
+  const user = users.find(item => item._id === _id);
 
   if (!user) {
     res.status(404).send({ message: 'Нет пользователя с таким id' });
