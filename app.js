@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const routesUsers = require('./routes/users');
+
 const { PORT = 3000 } = process.env;
 const app = express();
 
@@ -15,7 +17,11 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-app.use('/users', require('./routes/users'));
+app.use((req, res, next) => {
+  req.user = { _id: '5e7481a2c7a9e507b868c0db' };
+  next();
+});
+app.use(routesUsers);
 
 
 app.listen(PORT, () => {
