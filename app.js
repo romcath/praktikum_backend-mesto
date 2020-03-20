@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const routesUsers = require('./routes/users');
 const routesCards = require('./routes/cards');
+const routeError = require('./routes/error');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 });
 app.use(routesUsers);
 app.use(routesCards);
+app.use(routeError);
 
 
 app.listen(PORT, () => {

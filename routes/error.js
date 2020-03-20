@@ -1,7 +1,7 @@
 const route = require('express').Router();
 
-route.all('/', (req, res) => {
-  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
-});
+const { error } = require('../controllers/error');
+
+route.all('*', error);
 
 module.exports = route;
