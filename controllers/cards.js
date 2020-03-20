@@ -23,4 +23,28 @@ const createCard = (req, res) => {
     .catch(err => res.status(500).send({ message: 'Карточка не создана', error: err }));
 };
 
-module.exports = { returnAllcards, removeCardId, createCard };
+// Ставит лайк карточке
+const likeCard = (req, res) => {
+  Card.findByIdAndUpdate(
+    req.params.cardId,
+    { $addToSet: { likes: req.user._id } },
+    { new: true },
+  )
+    .then(user => res.send({ data: user }))
+    .catch(err => res.status(500).send({ message: 'Лайк не поставлен', error: err }));
+};
+
+// Убирает лайк с карточки
+const dislikeCard = (req, res) => {
+  Card.findByIdAndUpdate(
+    req.params.cardId,
+    { $pull: { likes: req.user._id } },
+    { new: true },
+  )
+    .then(user => res.send({ data: user }))
+    .catch(err => res.status(500).send({ message: 'Лайк не убран', error: err }));
+};
+
+module.exports = {
+  returnAllcards, removeCardId, createCard, likeCard, dislikeCard,
+};
