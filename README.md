@@ -23,7 +23,7 @@ API для сервиса размещения фотографий Mesto.
       "_id": "5e7481a2c7a9e507b868c0db",
       "name": "Новый пользователь",
       "about": "Разработчик",
-      "avatar": "https://images.unsplash.com/photo-1520453803296-c39eabe2dab4?ixlib=rb-1.2.ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1012&q=80",
+      "avatar": "https://images.unsplash.com/photo-1520453803296",
       "__v": 0
     },
     {
@@ -112,7 +112,7 @@ API для сервиса размещения фотографий Mesto.
 #### Пример запроса
 ```
 {
-    "avatar": "https://images.unsplash.com/photo-1520453803296-c39eabe2dab4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1012&q=80"
+    "avatar": "https://images.unsplash.com/photo-1520453803296"
 }
 ```
 #### Пример ответа
@@ -122,7 +122,7 @@ API для сервиса размещения фотографий Mesto.
         "_id": "5e7481a2c7a9e507b868c0db",
         "name": "Пользователь",
         "about": "Обновленный пользователь",
-        "avatar": "https://images.unsplash.com/photo-1520453803296-c39eabe2dab4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1012&q=80",
+        "avatar": "https://images.unsplash.com/photo-1520453803296",
         "__v": 0
     }
 } 
@@ -159,7 +159,7 @@ API для сервиса размещения фотографий Mesto.
 ```
 {
     "name": "Республика Коми",
-    "link": "https://images.unsplash.com/flagged/photo-1575556809963-3d9e5730eda0?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+    "link": "https://images.unsplash.com/flagged/photo-1575556809963"
 }
 ```
 #### Пример ответа
@@ -169,7 +169,7 @@ API для сервиса размещения фотографий Mesto.
         "likes": [],
         "_id": "5e75dc092b752a2958806282",
         "name": "Республика Коми",
-        "link": "https://images.unsplash.com/flagged/photo-1575556809963-3d9e5730eda0?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+        "link": "https://images.unsplash.com/flagged/photo-1575556809963",
         "owner": "5e7481a2c7a9e507b868c0db",
         "createdAt": "2020-03-21T09:19:05.716Z",
         "__v": 0
@@ -190,7 +190,7 @@ API для сервиса размещения фотографий Mesto.
         "likes": [],
         "_id": "5e75dc092b752a2958806282",
         "name": "Республика Коми",
-        "link": "https://images.unsplash.com/flagged/photo-1575556809963-3d9e5730eda0?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+        "link": "https://images.unsplash.com/flagged/photo-1575556809963",
         "owner": "5e7481a2c7a9e507b868c0db",
         "createdAt": "2020-03-21T09:19:05.716Z",
         "__v": 0
@@ -213,7 +213,7 @@ API для сервиса размещения фотографий Mesto.
                 "_id": "5e7481a2c7a9e507b868c0db",
                 "name": "Пользователь",
                 "about": "Обновленный пользователь",
-                "avatar": "https://images.unsplash.com/photo-1520453803296-c39eabe2dab4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1012&q=80",
+                "avatar": "https://images.unsplash.com/photo-1520453803296",
                 "__v": 0
             }
         ],
@@ -224,7 +224,7 @@ API для сервиса размещения фотографий Mesto.
             "_id": "5e7481a2c7a9e507b868c0db",
             "name": "Пользователь",
             "about": "Обновленный пользователь",
-            "avatar": "https://images.unsplash.com/photo-1520453803296-c39eabe2dab4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1012&q=80",
+            "avatar": "https://images.unsplash.com/photo-1520453803296",
             "__v": 0
         },
         "createdAt": "2020-03-20T11:06:42.667Z",
