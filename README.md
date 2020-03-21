@@ -6,7 +6,7 @@
 API для сервиса размещения фотографий Mesto.
 > Это учебный проект, сделан в [Яндекс.Практикуме](https://praktikum.yandex.ru). Код проходил код-ревью.
 
-## Взаимодействие с API:
+## Взаимодействие с API
 ### 1. Загрузка информации о всех пользователях
 #### Метод
 ```GET```
@@ -23,7 +23,7 @@ API для сервиса размещения фотографий Mesto.
       "_id": "5e7481a2c7a9e507b868c0db",
       "name": "Новый пользователь",
       "about": "Разработчик",
-      "avatar": "https://images.unsplash.com/photo-1520453803296-c39eabe2dab4?ixlib=rb-1.2.  ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1012&q=80",
+      "avatar": "https://images.unsplash.com/photo-1520453803296-c39eabe2dab4?ixlib=rb-1.2.ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1012&q=80",
       "__v": 0
     },
     {
