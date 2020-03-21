@@ -3,14 +3,20 @@ const Card = require('../models/card');
 // Возвращает все карточки
 const returnAllcards = (req, res) => {
   Card.find({})
-    .then(user => res.send({ data: user }))
+    .then(card => res.send({ data: card }))
     .catch(err => res.status(500).send({ message: 'Карточки не загружены', error: err.message }));
 };
 
 // Удаляет карточку по идентификатору
 const removeCardId = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
-    .then(user => res.send({ data: user }))
+    .then(card => {
+      if (!card) {
+        res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+        return;
+      }
+      res.send({ data: card });
+    })
     .catch(err => res.status(500).send({ message: 'Карточка не найдена', error: err.message }));
 };
 
@@ -31,7 +37,13 @@ const likeCard = (req, res) => {
     { new: true },
   )
     .populate(['owner', 'likes'])
-    .then(user => res.send({ data: user }))
+    .then(card => {
+      if (!card) {
+        res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+        return;
+      }
+      res.send({ data: card });
+    })
     .catch(err => res.status(500).send({ message: 'Лайк не поставлен', error: err.message }));
 };
 
@@ -42,7 +54,13 @@ const dislikeCard = (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then(user => res.send({ data: user }))
+    .then(card => {
+      if (!card) {
+        res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+        return;
+      }
+      res.send({ data: card });
+    })
     .catch(err => res.status(500).send({ message: 'Лайк не убран', error: err.message }));
 };
 

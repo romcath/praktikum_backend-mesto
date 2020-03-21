@@ -10,8 +10,14 @@ const returnAllUsers = (req, res) => {
 // Возвращает пользователя по _id
 const returnUserId = (req, res) => {
   User.findById(req.params.userId)
-    .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Пользователь не найден', error: err.message }));
+    .then(user => {
+      if (!user) {
+        res.status(404).send({ message: `Нет пользователя с id ${req.params.userId}` });
+        return;
+      }
+      res.send({ data: user });
+    })
+    .catch(err => res.status(500).send({ message: `Произошла ошибка при получении пользователя с id ${req.params.userId}`, error: err.message }));
 };
 
 // Создаёт пользователя
@@ -27,7 +33,7 @@ const createUser = (req, res) => {
 const updateUserProfile = (req, res) => {
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { name, about })
+  User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true, new: true })
     .then(user => res.send({ data: user }))
     .catch(err => res.status(500).send({ message: 'Профиль пользователя не обновлён', error: err.message }));
 };
