@@ -4,14 +4,14 @@ const Card = require('../models/card');
 const returnAllcards = (req, res) => {
   Card.find({})
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Карточки не загружены', error: err }));
+    .catch(err => res.status(500).send({ message: 'Карточки не загружены', error: err.message }));
 };
 
 // Удаляет карточку по идентификатору
 const removeCardId = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Карточка не найдена', error: err }));
+    .catch(err => res.status(500).send({ message: 'Карточка не найдена', error: err.message }));
 };
 
 // Создаёт карточку
@@ -19,8 +19,8 @@ const createCard = (req, res) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then(card => res.send({ data: card }))
-    .catch(err => res.status(500).send({ message: 'Карточка не создана', error: err }));
+    .then(card => res.status(201).send({ data: card }))
+    .catch(err => res.status(500).send({ message: 'Карточка не создана', error: err.message }));
 };
 
 // Ставит лайк карточке
@@ -30,8 +30,9 @@ const likeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Лайк не поставлен', error: err }));
+    .catch(err => res.status(500).send({ message: 'Лайк не поставлен', error: err.message }));
 };
 
 // Убирает лайк с карточки
@@ -42,7 +43,7 @@ const dislikeCard = (req, res) => {
     { new: true },
   )
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Лайк не убран', error: err }));
+    .catch(err => res.status(500).send({ message: 'Лайк не убран', error: err.message }));
 };
 
 module.exports = {

@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: link => /(http|https):\/\/[a-zA-z]+\.([a-zA-z]+\.)?[a-zA-z]{2,}(\/[A-Za-z0-9\-\S]*)?#?/.test(link),
-      message: props => `${props.value} неправильная ссылка на картинку`,
+      message: props => `${props.value} неправильная ссылка`,
     },
   },
 });
