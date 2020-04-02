@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -16,10 +17,19 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     required: true,
-    validate: {
-      validator: link => /(http|https):\/\/_?[a-zA-Z]+\.(_?[a-zA-Z]+\.)?[a-zA-Z]{2,}(\/[A-Za-z0-9\-\S]*)?#?/.test(link),
-      message: props => `${props.value} неправильная ссылка`,
-    },
+    validate: [validator.isURL, 'Некорректный формат ссылки для аватара пользователя'],
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    validate: [validator.isEmail, 'Некорректный формат для электронной почты'],
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,
   },
 });
 
