@@ -1,11 +1,11 @@
 {
   "name": "praktikum_backend-mesto",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Backend for service Mesto",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
     "eslint": "eslint --ext .js ./",
     "eslint:fix": "eslint --ext .js ./ --fix"
   },
@@ -15,7 +15,9 @@
   },
   "keywords": [
     "express.js",
-    "backend"
+    "backend",
+    "mongodb",
+    "node.js"
   ],
   "author": "Kate Romashkina",
   "license": "ISC",
@@ -26,11 +28,14 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.5",
     "validator": "^13.0.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",

@@ -1,4 +1,7 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const { JWT_SECRET } = require('../config');
 
 const User = require('../models/user');
 
@@ -54,6 +57,18 @@ const updateUserAvatar = (req, res) => {
     .catch(err => res.status(500).send({ message: 'Аватар пользователя не обновлён', error: err.message }));
 };
 
+// Проверяет почту и пароль, создаёт JWT
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then(user => {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET);
+      res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true }).end();
+    })
+    .catch(err => res.status(401).send({ message: err.message }));
+};
+
 module.exports = {
-  returnAllUsers, returnUserId, createUser, updateUserProfile, updateUserAvatar,
+  returnAllUsers, returnUserId, createUser, updateUserProfile, updateUserAvatar, login,
 };
