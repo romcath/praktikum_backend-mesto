@@ -2,7 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
+const auth = require('./middlewares/auth');
 const routesUsers = require('./routes/users');
 const routesCards = require('./routes/cards');
 const routeError = require('./routes/error');
@@ -10,6 +12,8 @@ const { login, createUser } = require('./controllers/users');
 const { PORT, DATABASE } = require('./config');
 
 const app = express();
+
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,10 +28,7 @@ mongoose.connect(DATABASE, {
 app.post('/signup', createUser);
 app.post('/signin', login);
 
-app.use((req, res, next) => {
-  req.user = { _id: '5e7481a2c7a9e507b868c0db' };
-  next();
-});
+app.use(auth);
 app.use(routesUsers);
 app.use(routesCards);
 app.use(routeError);
