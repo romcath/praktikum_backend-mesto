@@ -4,7 +4,7 @@ const Card = require('../models/card');
 const returnAllcards = (req, res) => {
   Card.find({})
     .then(card => res.send({ data: card }))
-    .catch(err => res.status(500).send({ message: 'Карточки не загружены', error: err.errors }));
+    .catch(err => res.status(500).send({ message: 'Карточки не загружены', error: err.message }));
 };
 
 // Удаляет карточку по идентификатору
@@ -22,7 +22,7 @@ const removeCardId = (req, res) => {
       Card.deleteOne(card)
         .then(() => res.send({ data: card }));
     })
-    .catch(err => res.status(500).send({ message: 'Карточка не найдена', error: err.errors }));
+    .catch(err => res.status(500).send({ message: 'Карточка не найдена', error: err.message }));
 };
 
 // Создаёт карточку
@@ -49,7 +49,7 @@ const likeCard = (req, res) => {
       }
       res.send({ data: card });
     })
-    .catch(err => res.status(500).send({ message: 'Лайк не поставлен', error: err.errors }));
+    .catch(err => res.status(500).send({ message: 'Лайк не поставлен', error: err.message }));
 };
 
 // Убирает лайк с карточки
@@ -66,7 +66,7 @@ const dislikeCard = (req, res) => {
       }
       res.send({ data: card });
     })
-    .catch(err => res.status(500).send({ message: 'Лайк не убран', error: err.errors }));
+    .catch(err => res.status(500).send({ message: 'Лайк не убран', error: err.message }));
 };
 
 module.exports = {
