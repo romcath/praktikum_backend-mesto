@@ -9,7 +9,7 @@ const User = require('../models/user');
 const returnAllUsers = (req, res) => {
   User.find({})
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Пользователи не загружены', error: err.message }));
+    .catch(err => res.status(500).send({ message: 'Пользователи не загружены', error: err.errors }));
 };
 
 // Возвращает пользователя по _id
@@ -22,7 +22,7 @@ const returnUserId = (req, res) => {
       }
       res.send({ data: user });
     })
-    .catch(err => res.status(500).send({ message: `Произошла ошибка при получении пользователя с id ${req.params.userId}`, error: err.message }));
+    .catch(err => res.status(500).send({ message: `Произошла ошибка при получении пользователя с id ${req.params.userId}`, error: err.errors }));
 };
 
 // Создаёт пользователя
@@ -40,7 +40,7 @@ const createUser = (req, res) => {
         _id: user._id, name: user.name, about: user.about, avatar: user.avatar, email: user.email,
       },
     }))
-    .catch(err => res.status(500).send({ message: 'Пользователь не создан', error: err.message }));
+    .catch(err => res.status(500).send({ message: 'Пользователь не создан', error: err.errors }));
 };
 
 // Обновляет профиль пользователя
@@ -49,7 +49,7 @@ const updateUserProfile = (req, res) => {
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true, new: true })
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Профиль пользователя не обновлён', error: err.message }));
+    .catch(err => res.status(500).send({ message: 'Профиль пользователя не обновлён', error: err.errors }));
 };
 
 // Обновляет аватар пользователя
@@ -58,7 +58,7 @@ const updateUserAvatar = (req, res) => {
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { runValidators: true, new: true })
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Аватар пользователя не обновлён', error: err.message }));
+    .catch(err => res.status(500).send({ message: 'Аватар пользователя не обновлён', error: err.errors }));
 };
 
 // Проверяет почту и пароль, создаёт JWT
@@ -70,7 +70,7 @@ const login = (req, res) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
       res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true }).end();
     })
-    .catch(err => res.status(401).send({ message: err.message }));
+    .catch(err => res.status(401).send({ message: 'Токен не создан', error: err.errors }));
 };
 
 module.exports = {
