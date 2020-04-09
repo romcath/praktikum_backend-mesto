@@ -1,6 +1,6 @@
 {
   "name": "praktikum_backend-mesto",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Backend for service Mesto",
   "main": "app.js",
   "scripts": {

@@ -1,6 +1,6 @@
 # Сервер для проекта Mesto
 
-###### Версия проекта: 0.2.3
+###### Версия проекта: 0.2.4
 
 ## О проекте
 API для сервиса размещения фотографий [Mesto](https://github.com/romcath/praktikum_mesto).
@@ -77,7 +77,7 @@ API для сервиса размещения фотографий [Mesto](http
     "about": "Путешественник",
     "avatar": "https://images.unsplash.com",
     "email": "user3@ya.ru",
-    "password": "user3"
+    "password": "userpassword3"
 }
 ```
 #### Пример ответа
@@ -88,9 +88,7 @@ API для сервиса размещения фотографий [Mesto](http
         "name": "Пользователь 3",
         "about": "Путешественник",
         "avatar": "https://images.unsplash.com",
-        "email": "user3@ya.ru",
-        "password": "$2a$10$Qv.tog4hyU.p0FsxGj621uPfP8nZAj.X1gOATO6.qHeMTNohBvvMu",
-        "__v": 0
+        "email": "user3@ya.ru"
     }
 } 
 ```
@@ -103,7 +101,7 @@ API для сервиса размещения фотографий [Mesto](http
 ```
 {
     "email": "user3@ya.ru",
-    "password": "user3"
+    "password": "userpassword3"
 }
 ```
 #### Ответ

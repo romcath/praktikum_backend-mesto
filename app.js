@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const auth = require('./middlewares/auth');
+const checkPass = require('./middlewares/checkPassword');
 const routesUsers = require('./routes/users');
 const routesCards = require('./routes/cards');
 const routeError = require('./routes/error');
@@ -25,7 +26,7 @@ mongoose.connect(DATABASE, {
   useUnifiedTopology: true,
 });
 
-app.post('/signup', createUser);
+app.post('/signup', checkPass, createUser);
 app.post('/signin', login);
 
 app.use(auth);

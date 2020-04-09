@@ -35,7 +35,11 @@ const createUser = (req, res) => {
     .then(hash => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then(user => res.status(201).send({ data: user }))
+    .then(user => res.status(201).send({
+      data: {
+        _id: user._id, name: user.name, about: user.about, avatar: user.avatar, email: user.email,
+      },
+    }))
     .catch(err => res.status(500).send({ message: 'Пользователь не создан', error: err.message }));
 };
 
