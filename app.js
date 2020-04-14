@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const auth = require('./middlewares/auth');
-const checkPass = require('./middlewares/checkPassword');
+const errorHandler = require('./middlewares/errorHandler');
 const routesUsers = require('./routes/users');
 const routesCards = require('./routes/cards');
 const routeError = require('./routes/error');
@@ -26,7 +26,7 @@ mongoose.connect(DATABASE, {
   useUnifiedTopology: true,
 });
 
-app.post('/signup', checkPass, createUser);
+app.post('/signup', createUser);
 app.post('/signin', login);
 
 app.use(auth);
@@ -34,6 +34,7 @@ app.use(routesUsers);
 app.use(routesCards);
 app.use(routeError);
 
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console

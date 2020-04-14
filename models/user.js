@@ -40,7 +40,7 @@ userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then(user => {
       if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль'));
+        Promise.reject(new Error('Неправильные почта или пароль'));
       }
 
       return bcrypt.compare(password, user.password)
@@ -52,6 +52,12 @@ userSchema.statics.findUserByCredentials = function (email, password) {
           return user;
         });
     });
+};
+
+userSchema.methods.omitPrivate = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
 };
 
 userSchema.plugin(beautifyUnique);
