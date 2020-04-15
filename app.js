@@ -13,6 +13,7 @@ const routeError = require('./routes/error');
 const { createUserValidation, loginUserValidation } = require('./middlewares/userValidation');
 const { login, createUser } = require('./controllers/users');
 const { PORT, DATABASE } = require('./config');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 
@@ -28,6 +29,8 @@ mongoose.connect(DATABASE, {
   useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+
 app.post('/signup', createUserValidation, createUser);
 app.post('/signin', loginUserValidation, login);
 
@@ -35,6 +38,8 @@ app.use(auth);
 app.use(routesUsers);
 app.use(routesCards);
 app.use(routeError);
+
+app.use(errorLogger);
 
 app.use(errors());
 
