@@ -5,6 +5,7 @@
 ## О проекте
 API для сервиса размещения фотографий [Mesto](https://github.com/romcath/praktikum_mesto).
 > Это учебный проект, сделан в [Яндекс.Практикуме](https://praktikum.yandex.ru). Код проходил код-ревью.
+К API можно обратиться по доменному имени [mesto.ga](mesto.ga) или IP-адресу ```84.201.167.230```.
 
 ## Функционал
 1. Регистрация нового пользователя
@@ -18,9 +19,9 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```GET```
 #### Адрес
-```localhost:3000/users```
+```mesto.ga/users```
 #### Пример запроса
-```http://localhost:3000/users```
+```https://mesto.ga/users```
 #### Пример ответа
 ```
 {
@@ -49,9 +50,9 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```GET```
 #### Адрес
-```localhost:3000/users/{userId}```
+```mesto.ga/users/{userId}```
 #### Пример запроса
-```http://localhost:3000/users/5e8daecf07e59f162c59fbf3```
+```https://mesto.ga/users/5e8daecf07e59f162c59fbf3```
 #### Пример ответа
 ```
 {
@@ -69,7 +70,7 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```POST```
 #### Адрес
-```localhost:3000/signup```
+```mesto.ga/signup```
 #### Пример запроса
 ```
 {
@@ -96,7 +97,7 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```POST```
 #### Адрес
-```localhost:3000/signin```
+```mesto.ga/signin```
 #### Пример запроса
 ```
 {
@@ -111,7 +112,7 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```PATCH```
 #### Адрес
-```localhost:3000/users/me```
+```mesto.ga/users/me```
 #### Пример запроса
 ```
 {
@@ -136,7 +137,7 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```PATCH```
 #### Адрес
-```localhost:3000/users/me/avatar```
+```mesto.ga/users/me/avatar```
 #### Пример запроса
 ```
 {
@@ -160,9 +161,9 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```GET```
 #### Адрес
-```localhost:3000/cards```
+```mesto.ga/cards```
 #### Пример запроса
-```http://localhost:3000/cards```
+```https://mesto.ga/cards```
 #### Пример ответа
 ```
 {
@@ -183,7 +184,7 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```POST```
 #### Адрес
-```localhost:3000/cards```
+```mesto.ga/cards```
 #### Пример запроса
 ```
 {
@@ -209,9 +210,9 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```DELETE```
 #### Адрес
-```localhost:3000/cards/{cardId}```
+```mesto.ga/cards/{cardId}```
 #### Пример запроса
-```http://localhost:3000/cards/5e75dc092b752a2958806282```
+```https://mesto.ga/cards/5e75dc092b752a2958806282```
 #### Пример ответа
 ```
 {
@@ -230,9 +231,9 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```PUT```
 #### Адрес
-```localhost:3000/cards/{cardId}/likes```
+```mesto.ga/cards/{cardId}/likes```
 #### Пример запроса
-```http://localhost:3000/cards/5e74a3c2bbc5d4392417c107/likes```
+```https://mesto.ga/cards/5e74a3c2bbc5d4392417c107/likes```
 #### Пример ответа
 ```
 {
@@ -265,9 +266,9 @@ API для сервиса размещения фотографий [Mesto](http
 #### Метод
 ```DELETE```
 #### Адрес
-```localhost:3000/cards/{cardId}/likes```
+```mesto.ga/cards/{cardId}/likes```
 #### Пример запроса
-```http://localhost:3000/cards/5e74a3c2bbc5d4392417c107/likes```
+```https://mesto.ga/cards/5e74a3c2bbc5d4392417c107/likes```
 #### Пример ответа
 ```
 {
@@ -294,7 +295,7 @@ API для сервиса размещения фотографий [Mesto](http
 
 Запустите сервер:
 
-```npm run start```
+```npm start```
 
 
 ## Стек технологий
