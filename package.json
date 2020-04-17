@@ -1,6 +1,6 @@
 {
   "name": "praktikum_backend-mesto",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Backend for service Mesto",
   "main": "app.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "joi-objectid": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.5",
+    "mongoose-beautiful-unique-validation": "^7.1.1",
     "validator": "^13.0.0",
     "winston": "^3.2.1"
   },

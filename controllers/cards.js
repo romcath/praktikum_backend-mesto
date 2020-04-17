@@ -12,14 +12,12 @@ const returnAllcards = (req, res, next) => {
 // Удаляет карточку по идентификатору
 const removeCardId = (req, res, next) => {
   Card.findById(req.params.cardId)
+    .orFail(new NotFoundError(`Нет карточки с id ${req.params.cardId}`))
     .then(card => {
-      if (!card) {
-        throw new NotFoundError(`Нет карточки с id ${req.params.cardId}`);
-      }
       if (!card.owner.equals(req.user._id)) {
         throw new ForbiddenError('Вы не можете удалить карточку, созданную другим пользователем');
       }
-      Card.deleteOne(card)
+      return Card.deleteOne(card)
         .then(() => res.send({ data: card }));
     })
     .catch(next);
@@ -41,13 +39,9 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .orFail(new NotFoundError(`Нет карточки с id ${req.params.cardId}`))
     .populate(['owner', 'likes'])
-    .then(card => {
-      if (!card) {
-        throw new NotFoundError(`Нет карточки с id ${req.params.cardId}`);
-      }
-      res.send({ data: card });
-    })
+    .then(card => res.send({ data: card }))
     .catch(next);
 };
 
@@ -58,12 +52,8 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then(card => {
-      if (!card) {
-        throw new NotFoundError(`Нет карточки с id ${req.params.cardId}`);
-      }
-      res.send({ data: card });
-    })
+    .orFail(new NotFoundError(`Нет карточки с id ${req.params.cardId}`))
+    .then(card => res.send({ data: card }))
     .catch(next);
 };
 

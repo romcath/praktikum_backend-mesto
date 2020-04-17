@@ -1,11 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { JWT_SECRET, NODE_ENV } = require('../config');
+const { JWT_SECRET, SECRET, NODE_ENV } = require('../config');
 
 const NotFoundError = require('../errors/not-found-err');
 const UnauthorizedError = require('../errors/unauthorized');
-const BadRequestError = require('../errors/bad-request');
+const ConflictError = require('../errors/conflict');
 const User = require('../models/user');
 
 // Возвращает всех пользователей
@@ -18,12 +18,8 @@ const returnAllUsers = (req, res, next) => {
 // Возвращает пользователя по _id
 const returnUserId = (req, res, next) => {
   User.findById(req.params.userId)
-    .then(user => {
-      if (!user) {
-        throw new NotFoundError(`Нет пользователя с id ${req.params.userId}`);
-      }
-      res.send({ data: user });
-    })
+    .orFail(new NotFoundError(`Нет пользователя с id ${req.params.userId}`))
+    .then(user => res.send({ data: user }))
     .catch(next);
 };
 
@@ -38,7 +34,13 @@ const createUser = (req, res, next) => {
       name, about, avatar, email, password: hash,
     }))
     .then(user => res.status(201).send(user.omitPrivate()))
-    .catch(() => next(new BadRequestError(`Почта ${email} уже используется`)));
+    .catch(err => {
+      if (err.errors.email) {
+        next(new ConflictError(`Почта ${email} уже используется`));
+        return;
+      }
+      next(new Error('Ошибка при создании пользователя'));
+    });
 };
 
 // Обновляет профиль пользователя
@@ -65,7 +67,7 @@ const login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then(user => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : SECRET);
       res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true }).end();
     })
     .catch(() => next(new UnauthorizedError('Неправильные почта или пароль')));

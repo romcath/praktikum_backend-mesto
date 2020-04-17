@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const beautifyUnique = require('mongoose-beautiful-unique-validation');
+
+const UnauthorizedError = require('../errors/unauthorized');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -37,20 +40,14 @@ const userSchema = new mongoose.Schema({
 
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
-    .then(user => {
-      if (!user) {
-        return Promise.reject();
-      }
-
-      return bcrypt.compare(password, user.password)
-        .then(matched => {
-          if (!matched) {
-            return Promise.reject();
-          }
-
-          return user;
-        });
-    });
+    .orFail()
+    .then(user => bcrypt.compare(password, user.password)
+      .then(matched => {
+        if (!matched) {
+          return Promise.reject(new UnauthorizedError('Неправильные почта или пароль'));
+        }
+        return user;
+      }));
 };
 
 userSchema.methods.omitPrivate = function () {
@@ -58,5 +55,7 @@ userSchema.methods.omitPrivate = function () {
   delete obj.password;
   return obj;
 };
+
+userSchema.plugin(beautifyUnique);
 
 module.exports = mongoose.model('user', userSchema);
