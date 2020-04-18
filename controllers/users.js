@@ -1,32 +1,29 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { JWT_SECRET, NODE_ENV } = require('../config');
+const { SECRET } = require('../config');
 
+const NotFoundError = require('../errors/not-found-err');
+const ConflictError = require('../errors/conflict');
 const User = require('../models/user');
 
 // Возвращает всех пользователей
-const returnAllUsers = (req, res) => {
+const returnAllUsers = (req, res, next) => {
   User.find({})
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Пользователи не загружены', error: err.message }));
+    .catch(next);
 };
 
 // Возвращает пользователя по _id
-const returnUserId = (req, res) => {
+const returnUserId = (req, res, next) => {
   User.findById(req.params.userId)
-    .then(user => {
-      if (!user) {
-        res.status(404).send({ message: `Нет пользователя с id ${req.params.userId}` });
-        return;
-      }
-      res.send({ data: user });
-    })
-    .catch(err => res.status(500).send({ message: `Произошла ошибка при получении пользователя с id ${req.params.userId}`, error: err.message }));
+    .orFail(new NotFoundError(`Нет пользователя с id ${req.params.userId}`))
+    .then(user => res.send({ data: user }))
+    .catch(next);
 };
 
 // Создаёт пользователя
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
@@ -35,42 +32,44 @@ const createUser = (req, res) => {
     .then(hash => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then(user => res.status(201).send({
-      data: {
-        _id: user._id, name: user.name, about: user.about, avatar: user.avatar, email: user.email,
-      },
-    }))
-    .catch(err => res.status(500).send({ message: 'Пользователь не создан', error: err.errors }));
+    .then(user => res.status(201).send(user.omitPrivate()))
+    .catch(err => {
+      if (err.errors.email) {
+        next(new ConflictError(`Почта ${email} уже используется`));
+        return;
+      }
+      next(new Error('Ошибка при создании пользователя'));
+    });
 };
 
 // Обновляет профиль пользователя
-const updateUserProfile = (req, res) => {
+const updateUserProfile = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true, new: true })
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Профиль пользователя не обновлён', error: err.message }));
+    .catch(next);
 };
 
 // Обновляет аватар пользователя
-const updateUserAvatar = (req, res) => {
+const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { runValidators: true, new: true })
     .then(user => res.send({ data: user }))
-    .catch(err => res.status(500).send({ message: 'Аватар пользователя не обновлён', error: err.errors }));
+    .catch(next);
 };
 
 // Проверяет почту и пароль, создаёт JWT
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
     .then(user => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+      const token = jwt.sign({ _id: user._id }, SECRET);
       res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true }).end();
     })
-    .catch(err => res.status(401).send({ message: 'Токен не создан', error: err.message }));
+    .catch(next);
 };
 
 module.exports = {
