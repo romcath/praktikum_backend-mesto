@@ -4,7 +4,7 @@ const {
   returnAllUsers, returnUserId, updateUserProfile, updateUserAvatar,
 } = require('../controllers/users');
 
-const { updateUserProfileValidation, updateUserAvatarValidation, userIdValidation } = require('../middlewares/userValidation');
+const { updateUserProfileValidation, updateUserAvatarValidation, userIdValidation } = require('../middlewares/user-validation');
 
 route.get('/users', returnAllUsers);
 route.get('/users/:userId', userIdValidation, returnUserId);

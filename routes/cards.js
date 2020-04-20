@@ -4,7 +4,7 @@ const {
   returnAllcards, removeCardId, createCard, likeCard, dislikeCard,
 } = require('../controllers/cards');
 
-const { cardValidation, cardIdValidation } = require('../middlewares/cardValidation');
+const { cardValidation, cardIdValidation } = require('../middlewares/card-validation');
 
 route.get('/cards', returnAllcards);
 route.delete('/cards/:cardId', cardIdValidation, removeCardId);

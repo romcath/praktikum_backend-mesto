@@ -1,6 +1,8 @@
 const { celebrate, Joi } = require('celebrate');
 Joi.objectId = require('joi-objectid')(Joi);
 
+const url = require('./url-validation');
+
 const message = {
   name: {
     'string.empty': 'Поле `name` не может быть пустым',
@@ -10,7 +12,6 @@ const message = {
   },
   link: {
     'string.empty': 'Поле `link` не может быть пустым',
-    'string.uri': 'Некорректный формат для поля `link`',
     'any.required': 'Отсутствует обязательное поле `link`',
   },
 };
@@ -19,7 +20,7 @@ const cardValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30)
       .messages(message.name),
-    link: Joi.string().required().uri().messages(message.link),
+    link: Joi.string().required().custom(url, 'url validation').messages(message.link),
   }),
 });
 

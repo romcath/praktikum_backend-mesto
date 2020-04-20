@@ -1,6 +1,8 @@
 const { celebrate, Joi } = require('celebrate');
 Joi.objectId = require('joi-objectid')(Joi);
 
+const url = require('./url-validation');
+
 const message = {
   name: {
     'string.empty': 'Поле `name` не может быть пустым',
@@ -16,7 +18,6 @@ const message = {
   },
   avatar: {
     'string.empty': 'Поле `avatar` не может быть пустым',
-    'string.uri': 'Некорректный формат поля `avatar`',
     'any.required': 'Отсутствует обязательное поле `avatar`',
   },
   email: {
@@ -37,7 +38,7 @@ const createUserValidation = celebrate({
       .messages(message.name),
     about: Joi.string().required().min(2).max(30)
       .messages(message.about),
-    avatar: Joi.string().required().uri().messages(message.avatar),
+    avatar: Joi.string().required().custom(url, 'url validation').messages(message.avatar),
     email: Joi.string().required().email().messages(message.email),
     password: Joi.string().required().min(8).messages(message.password),
   }),
