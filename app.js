@@ -6,11 +6,11 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 
 const auth = require('./middlewares/auth');
-const errorHandler = require('./middlewares/errorHandler');
+const errorHandler = require('./middlewares/error-handler');
 const routesUsers = require('./routes/users');
 const routesCards = require('./routes/cards');
 const routeError = require('./routes/error');
-const { createUserValidation, loginUserValidation } = require('./middlewares/userValidation');
+const { createUserValidation, loginUserValidation } = require('./middlewares/user-validation');
 const { login, createUser } = require('./controllers/users');
 const { PORT, DATABASE } = require('./config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
