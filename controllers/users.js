@@ -14,6 +14,14 @@ const returnAllUsers = (req, res, next) => {
     .catch(next);
 };
 
+// Возвращает информацию о пользователе
+const getUserMe = (req, res, next) => {
+  User.findById(req.user._id)
+    .orFail(new NotFoundError('Пользователь не найден'))
+    .then((user) => res.send(user))
+    .catch(next);
+};
+
 // Возвращает пользователя по _id
 const returnUserId = (req, res, next) => {
   User.findById(req.params.userId)
@@ -32,8 +40,12 @@ const createUser = (req, res, next) => {
     .then(hash => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then(user => res.status(201).send(user.omitPrivate()))
+    .then((user) => {
+      res.clearCookie('jwt');
+      res.status(201).send(user.omitPrivate());
+    })
     .catch(err => {
+      res.clearCookie('jwt');
       if (err.errors.email) {
         next(new ConflictError(`Почта ${email} уже используется`));
         return;
@@ -67,11 +79,11 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then(user => {
       const token = jwt.sign({ _id: user._id }, SECRET);
-      res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true }).end();
+      res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true }).end('{}');
     })
     .catch(next);
 };
 
 module.exports = {
-  returnAllUsers, returnUserId, createUser, updateUserProfile, updateUserAvatar, login,
+  returnAllUsers, returnUserId, createUser, updateUserProfile, updateUserAvatar, login, getUserMe,
 };

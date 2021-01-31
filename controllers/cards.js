@@ -5,7 +5,7 @@ const Card = require('../models/card');
 // Возвращает все карточки
 const returnAllcards = (req, res, next) => {
   Card.find({})
-    .then(card => res.send({ data: card }))
+    .then(card => res.send(card))
     .catch(next);
 };
 

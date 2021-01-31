@@ -8,17 +8,14 @@ const message = {
     'string.empty': 'Поле `name` не может быть пустым',
     'string.min': 'Поле `name` не может быть меньше 2 символов',
     'string.max': 'Поле `name` не может быть больше 30 символов',
-    'any.required': 'Отсутствует обязательное поле `name`',
   },
   about: {
     'string.empty': 'Поле `about` не может быть пустым',
     'string.min': 'Поле `about` не может быть меньше 2 символов',
     'string.max': 'Поле `about` не может быть больше 30 символов',
-    'any.required': 'Отсутствует обязательное поле `about`',
   },
   avatar: {
     'string.empty': 'Поле `avatar` не может быть пустым',
-    'any.required': 'Отсутствует обязательное поле `avatar`',
   },
   email: {
     'string.empty': 'Поле `email` не может быть пустым',
@@ -34,11 +31,11 @@ const message = {
 
 const createUserValidation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30)
+    name: Joi.string().min(2).max(30)
       .messages(message.name),
-    about: Joi.string().required().min(2).max(30)
+    about: Joi.string().min(2).max(30)
       .messages(message.about),
-    avatar: Joi.string().required().custom(url, 'url validation').messages(message.avatar),
+    avatar: Joi.string().custom(url, 'url validation').messages(message.avatar),
     email: Joi.string().required().email().messages(message.email),
     password: Joi.string().required().min(8).messages(message.password),
   }),

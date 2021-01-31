@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+const cors = require('cors');
 
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/error-handler');
@@ -16,6 +17,16 @@ const { PORT, DATABASE } = require('./config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
+
+app.use(cors(({
+  origin: [
+    'http://localhost:8080',
+    'https://news-app.cf',
+    'https://romcath.github.io',
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+})));
 
 app.use(cookieParser());
 
