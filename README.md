@@ -229,17 +229,17 @@ API для сервиса размещения фотографий [Mesto](http
 
 
 ## Установка проекта
-#### Установите базу данных MongoDB.
+Установите базу данных [MongoDB](https://docs.mongodb.com/manual/administration/install-community/).
 
-#### Клонируйте репозиторий на компьютер
+Клонируйте репозиторий на компьютер
 
 ```git clone https://github.com/romcath/mesto-api.git```
 
-#### Установите зависисмости
+Установите зависисмости
 
 ```npm install```
 
-#### Запустите сервер
+Запустите сервер
 
 ```npm start```
 
