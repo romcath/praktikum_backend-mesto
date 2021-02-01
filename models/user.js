@@ -4,31 +4,35 @@ const bcrypt = require('bcryptjs');
 const beautifyUnique = require('mongoose-beautiful-unique-validation');
 
 const UnauthorizedError = require('../errors/unauthorized');
+const {
+  INCORRECT_EMAIL_PASS, USER_AVATAR_LINK_INCORRECT, NAME_DEFAULT,
+  ABOUT_DEFAULT, AVATAR_DEFAULT, USER_EMAIL_INCORRECT,
+} = require('../configuration/constants');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Жак-Ив Кусто',
+    default: NAME_DEFAULT,
   },
   about: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Исследователь',
+    default: ABOUT_DEFAULT,
   },
   avatar: {
     type: String,
-    validate: [validator.isURL, 'Некорректный формат ссылки для аватара пользователя'],
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png', 
+    validate: [validator.isURL, USER_AVATAR_LINK_INCORRECT],
+    default: AVATAR_DEFAULT,
   },
   email: {
     type: String,
     required: true,
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Некорректный формат для электронной почты'],
+    validate: [validator.isEmail, USER_EMAIL_INCORRECT],
   },
   password: {
     type: String,
@@ -40,11 +44,11 @@ const userSchema = new mongoose.Schema({
 
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
-    .orFail(new UnauthorizedError('Неправильные почта или пароль'))
-    .then(user => bcrypt.compare(password, user.password)
-      .then(matched => {
+    .orFail(new UnauthorizedError(INCORRECT_EMAIL_PASS))
+    .then((user) => bcrypt.compare(password, user.password)
+      .then((matched) => {
         if (!matched) {
-          return Promise.reject(new UnauthorizedError('Неправильные почта или пароль'));
+          return Promise.reject(new UnauthorizedError(INCORRECT_EMAIL_PASS));
         }
         return user;
       }));

@@ -1,23 +1,19 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { SECRET } = require('../config');
+const { SECRET, LIFETIME_COOKIES } = require('../configuration/config');
+const {
+  USER_NOT_FOUND, USER_EMAIL_CONFLICT, USER_CAN_NOT_CREATE, LOGOUT,
+} = require('../configuration/constants');
 
 const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict');
 const User = require('../models/user');
 
-// Возвращает всех пользователей
-const returnAllUsers = (req, res, next) => {
-  User.find({})
-    .then(user => res.send({ data: user }))
-    .catch(next);
-};
-
 // Возвращает информацию о пользователе
 const getUserMe = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(new NotFoundError('Пользователь не найден'))
+    .orFail(new NotFoundError(USER_NOT_FOUND))
     .then((user) => res.send(user))
     .catch(next);
 };
@@ -29,20 +25,20 @@ const createUser = (req, res, next) => {
   } = req.body;
 
   bcrypt.hash(password, 10)
-    .then(hash => User.create({
+    .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
     .then((user) => {
       res.clearCookie('jwt');
       res.status(201).send(user.omitPrivate());
     })
-    .catch(err => {
+    .catch((err) => {
       res.clearCookie('jwt');
       if (err.errors.email) {
-        next(new ConflictError(`Почта ${email} уже используется`));
+        next(new ConflictError(USER_EMAIL_CONFLICT));
         return;
       }
-      next(new Error('Ошибка при создании пользователя'));
+      next(new Error(USER_CAN_NOT_CREATE));
     });
 };
 
@@ -51,7 +47,7 @@ const updateUserProfile = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true, new: true })
-    .then(user => res.send(user))
+    .then((user) => res.send(user))
     .catch(next);
 };
 
@@ -60,7 +56,7 @@ const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { runValidators: true, new: true })
-    .then(user => res.send(user))
+    .then((user) => res.send(user))
     .catch(next);
 };
 
@@ -69,22 +65,23 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
-    .then(user => {
+    .then((user) => {
       const token = jwt.sign({ _id: user._id }, SECRET);
-      res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true }).end('{}');
+      res.cookie('jwt', token, { maxAge: LIFETIME_COOKIES, httpOnly: true, sameSite: true }).end('{}');
     })
     .catch(next);
 };
 
 // Разлогинивает пользователя
+// eslint-disable-next-line consistent-return
 const logout = (req, res, next) => {
   try {
-    res.cookie('jwt', '', { maxAge: 0, httpOnly: true }).send({ message: 'Вы вышли из системы' });
+    res.cookie('jwt', '', { maxAge: 0, httpOnly: true }).send({ message: LOGOUT });
   } catch (err) {
     return next();
   }
 };
 
 module.exports = {
-  returnAllUsers, createUser, updateUserProfile, updateUserAvatar, login, getUserMe, logout,
+  createUser, updateUserProfile, updateUserAvatar, login, getUserMe, logout,
 };

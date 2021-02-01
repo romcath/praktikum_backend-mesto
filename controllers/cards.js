@@ -1,3 +1,4 @@
+const { CARD_CAN_NOT_DEL, CARD_NOT_FOUND } = require('../configuration/constants');
 const NotFoundError = require('../errors/not-found-err');
 const ForbiddenError = require('../errors/forbidden-err');
 const Card = require('../models/card');
@@ -5,17 +6,17 @@ const Card = require('../models/card');
 // Возвращает все карточки
 const returnAllcards = (req, res, next) => {
   Card.find({})
-    .then(card => res.send(card))
+    .then((card) => res.send(card))
     .catch(next);
 };
 
 // Удаляет карточку по идентификатору
 const removeCardId = (req, res, next) => {
   Card.findById(req.params.cardId)
-    .orFail(new NotFoundError(`Нет карточки с id ${req.params.cardId}`))
-    .then(card => {
+    .orFail(new NotFoundError(CARD_NOT_FOUND))
+    .then((card) => {
       if (!card.owner.equals(req.user._id)) {
-        throw new ForbiddenError('Вы не можете удалить карточку, созданную другим пользователем');
+        throw new ForbiddenError(CARD_CAN_NOT_DEL);
       }
       return Card.deleteOne(card)
         .then(() => res.send(card));
@@ -28,7 +29,7 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then(card => res.status(201).send(card))
+    .then((card) => res.status(201).send(card))
     .catch(next);
 };
 
@@ -39,8 +40,8 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .orFail(new NotFoundError(`Нет карточки с id ${req.params.cardId}`))
-    .then(card => res.send(card))
+    .orFail(new NotFoundError(CARD_NOT_FOUND))
+    .then((card) => res.send(card))
     .catch(next);
 };
 
@@ -51,8 +52,8 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .orFail(new NotFoundError(`Нет карточки с id ${req.params.cardId}`))
-    .then(card => res.send(card))
+    .orFail(new NotFoundError(CARD_NOT_FOUND))
+    .then((card) => res.send(card))
     .catch(next);
 };
 

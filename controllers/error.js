@@ -1,6 +1,7 @@
+const { NOT_FOUND } = require('../configuration/constants');
+const NotFoundError = require('../errors/not-found-err');
+
 // Обработка несуществующего запроса
-const error = (req, res) => {
-  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
-};
+const error = (req, res, next) => next(new NotFoundError(NOT_FOUND));
 
 module.exports = { error };

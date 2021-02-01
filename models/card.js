@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
+const { CARD_LINK_INCORRECT } = require('../configuration/constants');
+
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -11,7 +13,7 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true,
-    validate: [validator.isURL, 'Некорректный формат ссылки для карточки'],
+    validate: [validator.isURL, CARD_LINK_INCORRECT],
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
