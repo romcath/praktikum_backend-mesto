@@ -18,7 +18,7 @@ const removeCardId = (req, res, next) => {
         throw new ForbiddenError('Вы не можете удалить карточку, созданную другим пользователем');
       }
       return Card.deleteOne(card)
-        .then(() => res.send({ data: card }));
+        .then(() => res.send(card));
     })
     .catch(next);
 };
@@ -28,7 +28,7 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then(card => res.status(201).send({ data: card }))
+    .then(card => res.status(201).send(card))
     .catch(next);
 };
 
@@ -40,8 +40,7 @@ const likeCard = (req, res, next) => {
     { new: true },
   )
     .orFail(new NotFoundError(`Нет карточки с id ${req.params.cardId}`))
-    .populate(['owner', 'likes'])
-    .then(card => res.send({ data: card }))
+    .then(card => res.send(card))
     .catch(next);
 };
 
@@ -53,7 +52,7 @@ const dislikeCard = (req, res, next) => {
     { new: true },
   )
     .orFail(new NotFoundError(`Нет карточки с id ${req.params.cardId}`))
-    .then(card => res.send({ data: card }))
+    .then(card => res.send(card))
     .catch(next);
 };
 

@@ -22,14 +22,6 @@ const getUserMe = (req, res, next) => {
     .catch(next);
 };
 
-// Возвращает пользователя по _id
-const returnUserId = (req, res, next) => {
-  User.findById(req.params.userId)
-    .orFail(new NotFoundError(`Нет пользователя с id ${req.params.userId}`))
-    .then(user => res.send({ data: user }))
-    .catch(next);
-};
-
 // Создаёт пользователя
 const createUser = (req, res, next) => {
   const {
@@ -59,7 +51,7 @@ const updateUserProfile = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true, new: true })
-    .then(user => res.send({ data: user }))
+    .then(user => res.send(user))
     .catch(next);
 };
 
@@ -68,7 +60,7 @@ const updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { runValidators: true, new: true })
-    .then(user => res.send({ data: user }))
+    .then(user => res.send(user))
     .catch(next);
 };
 
@@ -84,6 +76,15 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+// Разлогинивает пользователя
+const logout = (req, res, next) => {
+  try {
+    res.cookie('jwt', '', { maxAge: 0, httpOnly: true }).send({ message: 'Вы вышли из системы' });
+  } catch (err) {
+    return next();
+  }
+};
+
 module.exports = {
-  returnAllUsers, returnUserId, createUser, updateUserProfile, updateUserAvatar, login, getUserMe,
+  returnAllUsers, createUser, updateUserProfile, updateUserAvatar, login, getUserMe, logout,
 };
