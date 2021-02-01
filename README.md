@@ -1,6 +1,6 @@
 # REST API проекта Mesto
 
-###### Версия проекта: 0.3.1
+###### Версия проекта: 0.3.2
 
 ## О проекте
 API для сервиса размещения фотографий [Mesto](https://github.com/romcath/mesto).
@@ -9,282 +9,228 @@ API для сервиса размещения фотографий [Mesto](http
 
 ## Функционал
 1. Регистрация нового пользователя
-2. Аутентификация пользователя по адресу почты и паролю
+2. Авторизация пользователя по адресу почты и паролю
 3. Редактирование профиля пользователя
 4. Создание и удаление карточки
 5. Постановка и снятие лайка карточке
 
 ## Взаимодействие с API
-### 1. Загрузка информации о всех пользователях
-#### Метод
-```GET```
-#### Адрес
-```mesto.ga/users```
-#### Пример запроса
-```https://mesto.ga/users```
-#### Пример ответа
-```
-{
-  "data":
-  [
-    {
-      "_id": "5e8dac1f07e59f162c59fbf2",
-      "name": "Пользователь 1",
-      "about": "Разработчик",
-      "avatar": "https://images.unsplash.com/photo-1520453803296",
-      "email": "user1@ya.ru",
-      "__v": 0
-    },
-    {
-      "_id": "5e8daecf07e59f162c59fbf3",
-      "name": "Пользователь 2",
-      "about": "Инженер",
-      "avatar": "https://images.unsplash.com",
-      "email": "user2@ya.ru",
-      "__v": 0
-    }
-  ]
-} 
-```
-### 2. Загрузка пользователя по идентификатору
-#### Метод
-```GET```
-#### Адрес
-```mesto.ga/users/{userId}```
-#### Пример запроса
-```https://mesto.ga/users/5e8daecf07e59f162c59fbf3```
-#### Пример ответа
-```
-{
-    "data": {
-        "_id": "5e8daecf07e59f162c59fbf3",
-        "name": "Пользователь 2",
-        "about": "Инженер",
-        "avatar": "https://images.unsplash.com",
-        "email": "user2@ya.ru",
-        "__v": 0
-    }
-} 
-```
-### 3. Регистрация пользователя
+### 1. Параметры запроса при регистрации
 #### Метод
 ```POST```
-#### Адрес
-```mesto.ga/signup```
-#### Пример запроса
+#### Эндпоинт
+```/signup```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Тело запроса
 ```
 {
-    "name": "Пользователь 3",
-    "about": "Путешественник",
-    "avatar": "https://images.unsplash.com",
-    "email": "user3@ya.ru",
-    "password": "userpassword3"
+  "email": "email@yandex.ru",
+  "password": "somepassword"
 }
 ```
-#### Пример ответа
+#### Успешный ответ
 ```
 {
-    "data": {
-        "_id": "5e8e17879f294739e04e5781",
-        "name": "Пользователь 3",
-        "about": "Путешественник",
-        "avatar": "https://images.unsplash.com",
-        "email": "user3@ya.ru"
-    }
-} 
+  "name": "Жак-Ив Кусто",
+  "about": "Исследователь",
+  "avatar": "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
+  "_id": "60182fb51c40e93938e67a2f",
+  "email": "email@yandex.ru"
+}
 ```
-### 4. Аутентификация пользователя по электронной почте и паролю
+### 2. Параметры запроса при авторизации
 #### Метод
 ```POST```
-#### Адрес
-```mesto.ga/signin```
-#### Пример запроса
+#### Эндпоинт
+```/signin```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Тело запроса
 ```
 {
-    "email": "user3@ya.ru",
-    "password": "userpassword3"
+  "email": "email@yandex.ru",
+  "password": "somepassword"
 }
 ```
-#### Ответ
-В случае успешной аутентификации пользователю будет отправлен токен JWT.
+#### Успешный ответ
+В случае успешной авторизации будет отправлен токен JWT.
 
-### 5. Обновление профиля
-#### Метод
-```PATCH```
-#### Адрес
-```mesto.ga/users/me```
-#### Пример запроса
-```
-{
-    "name": "Пользователь 5",
-    "about": "Учёный"
-}
-```
-#### Пример ответа
-```
-{
-    "data": {
-        "_id": "5e8e17879f294739e04e5781",
-        "name": "Пользователь 5",
-        "about": "Учёный",
-        "avatar": "https://images.unsplash.com",
-        "email": "user3@ya.ru",
-        "__v": 0
-    }
-} 
-```
-### 6. Обновление аватара пользователя
-#### Метод
-```PATCH```
-#### Адрес
-```mesto.ga/users/me/avatar```
-#### Пример запроса
-```
-{
-    "avatar": "https://images.unsplash.com/photo-1520453803296"
-}
-```
-#### Пример ответа
-```
-{
-    "data": {
-        "_id": "5e8e17879f294739e04e5781",
-        "name": "Пользователь 5",
-        "about": "Учёный",
-        "avatar": "https://images.unsplash.com/photo-1520453803296",
-        "email": "user3@ya.ru",
-        "__v": 0
-    }
-} 
-```
-### 7. Загрузка всех карточек
+### 3. Параметры запроса информации о пользователе
 #### Метод
 ```GET```
-#### Адрес
-```mesto.ga/cards```
-#### Пример запроса
-```https://mesto.ga/cards```
-#### Пример ответа
+#### Эндпоинт
+```/users/me```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Успешный ответ
 ```
 {
-    "data": [
-        {
-            "likes": [],
-            "_id": "5e74a3c2bbc5d4392417c107",
-            "name": "Карелия",
-            "link": "https://images.unsplash.com",
-            "owner": "5e7481a2c7a9e507b868c0db",
-            "createdAt": "2020-03-20T11:06:42.667Z",
-            "__v": 0
-        }
-    ]
-} 
-```
-### 8. Создание карточки
-#### Метод
-```POST```
-#### Адрес
-```mesto.ga/cards```
-#### Пример запроса
-```
-{
-    "name": "Республика Коми",
-    "link": "https://images.unsplash.com/flagged/photo-1575556809963"
+  "name": "Жак-Ив Кусто",
+  "about": "Исследователь",
+  "avatar": "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
+  "_id": "60182fb51c40e93938e67a2f",
+  "email": "email@yandex.ru"
 }
 ```
-#### Пример ответа
+### 4. Параметры запроса при обновлении профиля пользователя
+#### Метод
+```PATCH```
+#### Эндпоинт
+```/users/me```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Тело запроса
 ```
 {
-    "data": {
-        "likes": [],
-        "_id": "5e75dc092b752a2958806282",
-        "name": "Республика Коми",
-        "link": "https://images.unsplash.com/flagged/photo-1575556809963",
-        "owner": "5e7481a2c7a9e507b868c0db",
-        "createdAt": "2020-03-21T09:19:05.716Z",
-        "__v": 0
-    }
-} 
+  "name": "Жак-Ив Кусто",
+  "about": "Исследователь океана"
+}
 ```
-### 9. Удаление карточки по идентификатору
+#### Успешный ответ
+```
+{
+  "name": "Жак-Ив Кусто",
+  "about": "Исследователь океана",
+  "avatar": "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
+  "_id": "60182fb51c40e93938e67a2f",
+  "email": "email@yandex.ru"
+}
+```
+### 5. Параметры запроса при обновлении аватара пользователя
+#### Метод
+```PATCH```
+#### Эндпоинт
+```/users/me/avatar```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Тело запроса
+```
+{
+  "avatar": "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png"
+}
+```
+#### Успешный ответ
+```
+{
+  "name": "Жак-Ив Кусто",
+  "about": "Исследователь океана",
+  "avatar": "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
+  "_id": "60182fb51c40e93938e67a2f",
+  "email": "email@yandex.ru"
+}
+```
+### 6. Параметры запроса для загрузки всех карточек
+#### Метод
+```GET```
+#### Эндпоинт
+```/cards```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Успешный ответ
+```
+[
+  {
+    "likes": [
+      "60182d270bd4f11210007332"
+    ],
+    "_id": "6017ece90ece1d04f493300e",
+    "name": "Название места",
+    "link": "https://images.unsplash.com",
+    "owner": "6017ecd30ece1d04f493300d",
+    "createdAt": "2021-02-01T11:58:33.930Z"
+    }
+]
+```
+### 7. Параметры запроса при создании карточки
+#### Метод
+```POST```
+#### Эндпоинт
+```/cards```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Тело запроса
+```
+{
+  "name": "Название места",
+  "link": "https://images.unsplash.com"
+}
+```
+#### Успешный ответ
+```
+{
+  "likes": [],
+  "_id": "60183aff1c40e93938e67a30",
+  "name": "Название места,
+  "link": "https://images.unsplash.com",
+  "owner": "60182fb51c40e93938e67a2f",
+  "createdAt": "2021-02-01T17:31:43.319Z"
+}
+```
+### 8. Параметры запроса при удалении карточки по id
 #### Метод
 ```DELETE```
-#### Адрес
-```mesto.ga/cards/{cardId}```
-#### Пример запроса
-```https://mesto.ga/cards/5e75dc092b752a2958806282```
-#### Пример ответа
+#### Эндпоинт
+```/cards/{cardId}```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Успешный ответ
 ```
 {
-    "data": {
-        "likes": [],
-        "_id": "5e75dc092b752a2958806282",
-        "name": "Республика Коми",
-        "link": "https://images.unsplash.com/flagged/photo-1575556809963",
-        "owner": "5e7481a2c7a9e507b868c0db",
-        "createdAt": "2020-03-21T09:19:05.716Z",
-        "__v": 0
-    }
-} 
+  "likes": [],
+  "_id": "60183aff1c40e93938e67a30",
+  "name": "Название места,
+  "link": "https://images.unsplash.com",
+  "owner": "60182fb51c40e93938e67a2f",
+  "createdAt": "2021-02-01T17:31:43.319Z"
+}
 ```
-### 10. Постановка лайка карточке
+### 9. Параметры запроса при постановке лайка карточке
 #### Метод
 ```PUT```
-#### Адрес
-```mesto.ga/cards/{cardId}/likes```
-#### Пример запроса
-```https://mesto.ga/cards/5e74a3c2bbc5d4392417c107/likes```
-#### Пример ответа
+#### Эндпоинт
+```/cards/like/{cardId}```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Успешный ответ
 ```
 {
-    "data": {
-        "likes": [
-            {
-                "_id": "5e7481a2c7a9e507b868c0db",
-                "name": "Пользователь",
-                "about": "Обновленный пользователь",
-                "avatar": "https://images.unsplash.com/photo-1520453803296",
-                "__v": 0
-            }
-        ],
-        "_id": "5e74a3c2bbc5d4392417c107",
-        "name": "Тестовый пользователь",
-        "link": "https://images.unsplash.com",
-        "owner": {
-            "_id": "5e7481a2c7a9e507b868c0db",
-            "name": "Пользователь",
-            "about": "Обновленный пользователь",
-            "avatar": "https://images.unsplash.com/photo-1520453803296",
-            "__v": 0
-        },
-        "createdAt": "2020-03-20T11:06:42.667Z",
-        "__v": 0
-    }
+  "likes": [
+    "60182d270bd4f11210007332",
+    "60182fb51c40e93938e67a2f"
+  ],
+  "_id": "6017ece90ece1d04f493300e",
+  "name": "Название места",
+  "link": "https://images.unsplash.com",
+  "owner": "6017ecd30ece1d04f493300d",
+  "createdAt": "2021-02-01T11:58:33.930Z"
 }
 ```
-### 11. Удаление лайка карточки
+### 10. Параметры запроса при удалении лайка карточке
 #### Метод
 ```DELETE```
-#### Адрес
-```mesto.ga/cards/{cardId}/likes```
-#### Пример запроса
-```https://mesto.ga/cards/5e74a3c2bbc5d4392417c107/likes```
-#### Пример ответа
+#### Эндпоинт
+```/cards/like/{cardId}```
+#### Заголовки
+```"Content-Type": "application/json"```
+#### Успешный ответ
 ```
 {
-    "data": {
-        "likes": [],
-        "_id": "5e74a3c2bbc5d4392417c107",
-        "name": "Тестовый пользователь",
-        "link": "https://images.unsplash.com",
-        "owner": "5e7481a2c7a9e507b868c0db",
-        "createdAt": "2020-03-20T11:06:42.667Z",
-        "__v": 0
-    }
+  "likes": [
+    "60182d270bd4f11210007332"
+  ],
+  "_id": "6017ece90ece1d04f493300e",
+  "name": "Название места",
+  "link": "https://images.unsplash.com",
+  "owner": "6017ecd30ece1d04f493300d",
+  "createdAt": "2021-02-01T11:58:33.930Z"
 }
 ```
 
+
 ## Установка проекта
+#### Установите базу данных MongoDB.
+
 #### Клонируйте репозиторий на компьютер
 
 ```git clone https://github.com/romcath/mesto-api.git```
