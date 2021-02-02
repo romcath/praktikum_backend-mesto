@@ -16,6 +16,9 @@ const app = express();
 app.use(cors(({
   origin: [
     'http://localhost:8080',
+    'http://mesto.cf/',
+    'https://mesto.cf',
+    'https://romcath.github.io',
   ],
   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
   credentials: true,
