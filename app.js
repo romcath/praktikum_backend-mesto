@@ -22,6 +22,7 @@ app.use(cors(({
     'https://mesto.cf',
     'https://romcath.github.io',
   ],
+  preflightContinue: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 })));
