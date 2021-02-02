@@ -10,7 +10,7 @@ const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes/index');
 const { PORT, DATABASE } = require('./configuration/config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('../middlewares/cors');
+const cors = require('./middlewares/cors');
 
 const app = express();
 
