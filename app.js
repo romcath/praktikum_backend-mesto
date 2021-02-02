@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-// const cors = require('cors');
 
 const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes/index');
@@ -12,43 +11,6 @@ const { PORT, DATABASE } = require('./configuration/config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-
-// app.use(cors(({
-//   origin: [
-//     'http://localhost:8080',
-//     'http://mesto.cf/',
-//     'http://mesto.cf/auth.html',
-//     'http://api.mesto.cf',
-//     'https://mesto.cf',
-//     'https://romcath.github.io',
-//   ],
-//   preflightContinue: true,
-//   allowedHeaders: 'Content-Type,Authorization',
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-//   credentials: true,
-// })));
-const allowedCors = [
-    'http://localhost:8080',
-    'http://mesto.cf/',
-    'http://mesto.cf/auth.html',
-    'http://api.mesto.cf',
-    'https://mesto.cf',
-    'https://romcath.github.io',
-];
-
-app.use(function(req, res, next) {
-  const { origin } = req.headers;
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Headers', 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range');
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Expose-Headers', 'Content-Length,Content-Range');
-    res.header('Access-Control-Allow-Credentials', 'true');
-  }
-
-  next();
-});
 
 app.use(cookieParser());
 
