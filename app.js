@@ -4,26 +4,29 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-const cors = require('cors');
+// const cors = require('cors');
 
 const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes/index');
 const { PORT, DATABASE } = require('./configuration/config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('../middlewares/cors');
 
 const app = express();
 
-app.use(cors(({
-  origin: [
-    'http://localhost:8080',
-    'http://mesto.cf/',
-    'http://api.mesto.cf',
-    'https://mesto.cf',
-    'https://romcath.github.io',
-  ],
-  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
-  credentials: true,
-})));
+// app.use(cors(({
+//   origin: [
+//     'http://localhost:8080',
+//     'http://mesto.cf/',
+//     'http://api.mesto.cf',
+//     'https://mesto.cf',
+//     'https://romcath.github.io',
+//   ],
+//   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+//   credentials: true,
+// })));
+
+app.use(cors);
 
 app.use(cookieParser());
 
