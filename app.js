@@ -12,7 +12,7 @@ const { PORT, DATABASE } = require('./configuration/config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
-app.options('*', cors());
+
 app.use(cors(({
   origin: [
     'http://localhost:8080',
@@ -23,7 +23,8 @@ app.use(cors(({
     'https://romcath.github.io',
   ],
   preflightContinue: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   credentials: true,
 })));
 
