@@ -10,9 +10,24 @@ const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes/index');
 const { PORT, DATABASE } = require('./configuration/config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('./middlewares/cors');
 
 const app = express();
+
+const allowedCors = [
+  'http://mesto.cf',
+  'http://api.mesto.cf',
+  'http://localhost:8080'
+];
+
+app.use(function(req, res, next) {
+  const { origin } = req.headers;
+
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
 
 // app.use(cors(({
 //   origin: [
@@ -25,8 +40,6 @@ const app = express();
 //   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
 //   credentials: true,
 // })));
-
-app.use(cors);
 
 app.use(cookieParser());
 
