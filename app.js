@@ -17,6 +17,7 @@ app.use(cors(({
   origin: [
     'http://localhost:8080',
     'http://mesto.cf/',
+    'http://api.mesto.cf',
     'https://mesto.cf',
     'https://romcath.github.io',
   ],
